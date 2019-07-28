@@ -30,15 +30,16 @@ function getCookieData(){
     var username = arr["Username"];
     var password = arr["Password"];
     if(username != ''){
-        $('#UsernameCookie').text(username);
+        $('#UsernameCookie').text("ユーザ名"+username);
     }else{
         $('#UsernameCookie').text("");
     }
     if(password != ''){
-        $('#PasswordCookie').text(password);
+        $('#PasswordCookie').text("パスワード"+password);
     }else{
         $('#PasswordCookie').text("");
     }
+}
 };
 
 
