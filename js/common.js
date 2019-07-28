@@ -5,16 +5,14 @@ window.onload = function() {
 function login(){
     var usernameVal= $("#Username").val();
     var passwordVal= $("#Password").val();
-    document.cookie ='Username='+usernameVal;
-    document.cookie ='Password='+passwordVal;
-    document.cookie ='max-age=15552000';
+    document.cookie ='"Username="+usernameVal;max-age=15552000;';
+    document.cookie ='"Password="+passwordVal;max-age=15552000;';
     getCookieData();
 }
 
 function logout(){
     document.cookie = 'Username=;';
     document.cookie = 'Password=;';
-    document.cookie = 'max-age=0;';
     getCookieData();
 }
 
