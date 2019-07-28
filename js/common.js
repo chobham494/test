@@ -12,7 +12,9 @@ function login(){
 }
 
 function logout(){
-    document.cookie = "Username=; Password=; max-age=0";
+    document.cookie = 'Username=;';
+    document.cookie = 'Password=;';
+    document.cookie = 'max-age=0;';
     getCookieData();
 }
 
@@ -27,8 +29,15 @@ function getCookieData(){
       }
     var username = arr["Username"];
     var password = arr["Password"];
-    $('#UsernameCookie').text(username);
-    $('#PasswordCookie').text(password);
+    if(username != ''){
+        $('#UsernameCookie').text(username);
+    }else{
+        $('#UsernameCookie').text("");
+    }
+    if(password != ''){
+        $('#PasswordCookie').text(password);
+    }else{
+        $('#PasswordCookie').text("");
     }
 };
 
