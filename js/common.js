@@ -5,7 +5,7 @@ window.onload = function() {
 function login(){
     var usernameVal= $("#Username").val();
     var passwordVal= $("#Password").val();
-    document.cookie ="Username=usernameVal;Password=passwordVal;max-age=15552000";
+    document.cookie ='Username='+usernameVal+';Password='+passwordVal+';max-age=15552000';
     getCookieData();
 }
 
@@ -25,8 +25,8 @@ function getCookieData(){
       }
     var username = arr["Username"];
     var password = arr["Password"];
-    $('#UsernameCokkie').val(username);
-    $('#PasswordCokkie').val(password);
+    $('#UsernameCookie').val(username);
+    $('#PasswordCookie').val(password);
     }
 };
 
