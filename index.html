@@ -1,44 +1,129 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="./js/common.js"></script>
+    <script src="js/common.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <link href="./css/common.css" rel="stylesheet">
-    <!--Apple WebClip処理-->
-    <link rel="apple-touch-icon" href="./img/icon-72.png" sizes="72x72">
-    <link rel="apple-touch-icon" href="./img/icon-114.png" sizes="114x114">
-    <link rel="apple-touch-icon" href="./img/icon-120.png" sizes="120x120">
-    <link rel="apple-touch-icon" href="./img/icon-144.png" sizes="144x144">
-    
     <!--PWA処理-->
-    <link rel="manifest" href="./manifest.json">
-    <script>
-      // service workerが有効なら、service-worker.js を登録します
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js').then(function() { console.log('Service Worker Registered'); });
-     }
-    </script>
-  <title>PWA test</title>
+    <link rel="manifest" href="js/manifest.json">
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
+    <!--<script src="/taskuser/js/firebase-app.js"></script>
+    <script src="/taskuser/js/firebase-messaging.js"></script>-->
+    <link href="css/common.css" rel="stylesheet">
+    <!--Apple WebClip処理-->
+    <link rel="apple-touch-icon" href="img/icon-72.png" sizes="72x72">
+    <link rel="apple-touch-icon" href="img/icon-114.png" sizes="114x114">
+    <link rel="apple-touch-icon" href="img/icon-120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="img/icon-144.png" sizes="144x144">
+    <title>PWA test</title>
 </head>
 <body>
     <div class = "container">
       <div class="wrapper">
-        <div action=""  name="Login_Form" class="form-signin">       
+        <div action=""  name="Login_Form" class="form-signin">
             <h3 class="form-signin-heading">ログイン画面</h3>
             <hr class="colorgraph"><br>
-            
+
             <input type="text" class="form-control" id="Username" autofocus="" />
-            <input type="text" class="form-control" id="Password" />     		  
+            <input type="text" class="form-control" id="Password" />
             <br>
             <button id="login" class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" onclick="login()">ログイン</button>
             <br>
-            <button id="logout" class="btn btn-lg btn-primary btn-block"  name="Submit" value="logout" onclick="logout()">ログアウト</button> 
+            <button id="logout" class="btn btn-lg btn-primary btn-block"  name="Submit" value="logout" onclick="logout()">ログアウト</button>
+            <br>
+            <button id="ConfirmPush" class="btn btn-lg btn-primary btn-block"  name="Submit" value="logout" onclick="getSubscription()"></button>
             <h5>cookie</h5>
             <p id="UsernameCookie"></p>
             <p id="PasswordCookie"></p>
-        </div>			
+            <p id="ShowToken"></p>
+        </div>
       </div>
     </div>
+
+    <script>
+
+      // Firebase のSDKを利用し、SenderIDを設定して初期化
+      const config = {
+        messagingSenderId: "93250149431"
+      };
+      firebase.initializeApp(config);
+      const messaging = firebase.messaging();
+      messaging.usePublicVapidKey("BIriHP_a__5fFTgkYy6lvA6AtkB0gdqbvEGbd7jgeaMaDSF-MC5AQofCU0uMNzec5Kj207HlHb5kPSMHvdgUmZQ");
+
+  	  // Service Worker ファイルを登録し、ボタン表示を行う
+      registSW();
+      initialButton();
+
+      function initialButton() {
+        messaging.getToken().then(token => {
+          if (token) {
+       		$('#ConfirmPush').text("プッシュ通知を購読中");
+       	    $('#ShowToken').text(token);
+          } else {
+        	$('#ConfirmPush').text("プッシュ通知を受け取る");
+          }
+        }).catch(function (err) {
+          console.log('An error occurred while retrieving token. ', err);
+        });
+      }
+
+      function getSubscription() {
+          messaging.getToken().then(token => {
+            if (!token) {
+              getNotification();
+            } else {
+              displayToken();
+            }
+          }).catch(function (err) {
+            console.log('An error occurred while retrieving token. ', err);
+          });
+        }
+
+    //  Firebase のSDKを使い、プッシュ通知の購読処理を行う
+
+        function getNotification() {
+          messaging.requestPermission().then(function () {
+            console.log('Notification permission granted.');
+            displayToken();
+            initialButton();
+          }).catch(function (err) {
+            console.log('Unable to get permission to notify.', err);
+          });
+        }
+
+    //　トークン表示
+
+        function displayToken() {
+          messaging.getToken().then(token => {
+            if (token) {
+              console.log(token);
+            } else {
+              console.log('No Instance ID token available. Request permission to generate one.');
+            }
+          }).catch(function (err) {
+            console.log('An error occurred while retrieving token. ', err);
+          });
+        }
+
+    //　Service Worker ファイルを登録
+
+        function registSW() {
+
+          // Service Worker ファイル「firebaes-messaging-sw.js」を登録する
+
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+              navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(function (registration) {
+                  console.log('firebase-messaging-sw.js registration successful with scope: ', registration.scope);
+                }, function (err) {
+                  console.log('firebase-messaging-sw.js registration failed: ', err);
+                });
+            });
+          }
+        }
+
+    </script>
 </body>
 </html>
