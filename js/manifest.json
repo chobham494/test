@@ -3,15 +3,15 @@
   "short_name": "PWA",
   "background_color": "#ffffff",
   "icons": [{
-      "src": "img/icon-256.png",
+      "src": "/test/img/icon-256.png",
       "sizes": "256x256",
       "type": "image/png"
     },{
-      "src": "img/icon-192.png",
+      "src": "/test/img/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     }],
-  "start_url": "/?utm_source=homescreen",
+  "start_url": "/test/?utm_source=homescreen",
   "display": "standalone",
   "gcm_sender_id": "103953800507"
 }

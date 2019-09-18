@@ -1,7 +1,7 @@
-//importScripts('/taskuser/js/firebase-app.js');
-//importScripts('/taskuser/js/firebase-messaging.js');
-importScripts('https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js');
+importScripts('js/firebase-app.js');
+importScripts('js/firebase-messaging.js');
+//importScripts('https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js');
+//importScripts('https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js');
 
 firebase.initializeApp({
   'messagingSenderId': '93250149431'
