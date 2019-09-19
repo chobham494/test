@@ -120,6 +120,12 @@
                 }, function (err) {
                   console.log('firebase-messaging-sw.js registration failed: ', err);
                 });
+              navigator.serviceWorker.register('/test/js/service-worker.js')
+                .then(function (registration) {
+                  console.log('service-worker.js. registration successful with scope: ', registration.scope);
+                }, function (err) {
+                  console.log('service-worker.js registration failed: ', err);
+                });
             });
           }
         }
